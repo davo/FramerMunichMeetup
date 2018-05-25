@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<script type="text/javascript">
+		// This automatically sets the right viewport scale on mobile devices
+		(function () {
+			var scale = 1 / window.devicePixelRatio
+			var viewport = "width=device-width, height=device-height, initial-scale=" + scale + ", maximum-scale=" + scale + ", user-scalable=no, viewport-fit=cover"
+			var iOS = /iPad|iPhone|iPod/.test(navigator.platform)
+			if (iOS) { viewport += ", shrink-to-fit=no" }
+			document.write("<meta name=\"viewport\" content=\"" + viewport + "\">")
+		})()
+	</script>
+
+	<link rel="apple-touch-icon" href="framer/images/icon-120.png">
+	<link rel="apple-touch-icon" href="framer/images/icon-76.png" sizes="76x76">
+	<link rel="apple-touch-icon" href="framer/images/icon-120.png" sizes="120x120">
+	<link rel="apple-touch-icon" href="framer/images/icon-152.png" sizes="152x152">
+	<link rel="apple-touch-icon" href="framer/images/icon-180.png" sizes="180x180">
+	<link rel="apple-touch-icon" href="framer/images/icon-192.png" sizes="192x192">
+
+	<link rel="stylesheet" type="text/css" href="framer/style.css?nocache=6d40bc53861208d298f85019e08849ff">
+
+	<script src="framer/coffee-script.js"></script>
+	<script src="framer/framer.js?nocache=d2bbfa2efc034b8e02a947de8442af20"></script>
+	<script src="framer/framer.generated.js?nocache=ed4d4423a76bf8cb27b4f418dcc5b91a"></script>
+	<script src="framer/framer.modules.js?nocache=19fbd848d30b11cb38f01d65ec754359"></script>
+	<script src="framer/framer.vekter.js"></script>
+	<script>Framer.Device.hideBezel = false</script><script>document.addEventListener("DOMContentLoaded", function() {window.__framerClientCodeId = 9;window.__framerNew = function (n,loc,th,i){if (i == null) { return i };i.__framerInstanceInfo = _.defaults({name:n,location:loc,hash:th},i.__framerInstanceInfo);_.defaults(i.__framerInstanceInfo,{name:"Untitled"});return i;};(function() {
+  var ChartLayer, appendScript, chartProps, createLineChart, d3_formatPrefix, d3_formatPrefixes, d3_format_precision, data, getChartProperties, getHeaderProperties, getStockBook, getSummaryProperties, getTranslation, line, lineChart, quotesBySectorSummarized, range, ranges, stock, stockProps, stocks,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
+
+  appendScript = function(src) {
+    var parseScr, script;
+    parseScr = Utils.domLoadDataSync(src);
+    script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.innerHTML = parseScr;
+    return document.head.appendChild(script);
+  };
+
+  appendScript('modules/d3.min.js');
+
+  Utils.loadWebFont('Roboto');
+
+  Utils.loadWebFont('Roboto Mono');
+
+  chartProps = {};
+
+  stockProps = {};
+
+  stocks = {
+    stock: 'NVDA',
+    color: '#264DE2'
+  };
+
+  data = [
+    {
+      symbol: 'NVDA',
+      companyName: 'NVIDIA Corp',
+      sector: 'Technology',
+      open: 223.59,
+      latestPrice: 231.59,
+      volume: 35
+    }, {
+      symbol: 'BABA',
+      companyName: 'Alibaba Group Holding Limited',
+      sector: 'Consumer Cyclical',
+      open: 181,
+      latestPrice: 183.54,
+      volume: 18
+    }, {
+      symbol: 'AMZN',
+      companyName: 'Amazon.com Inc.',
+      sector: 'Consumer Cyclical',
+      open: 1406,
+      latestPrice: 1447.34,
+      volume: 15
+    }, {
+      symbol: 'ANET',
+      companyName: 'Arista Networks Inc.',
+      sector: 'Technology',
+      open: 248.01,
+      latestPrice: 255.3,
+      volume: 15
+    }, {
+      symbol: 'NFLX',
+      companyName: 'Netflix Inc.',
+      sector: 'Consumer Cyclical',
+      open: 287.36,
+      latestPrice: 295.35,
+      volume: 15
+    }, {
+      symbol: 'DIS',
+      companyName: 'The Walt Disney Company',
+      sector: 'Consumer Cyclical',
+      open: 98.94,
+      latestPrice: 100.44,
+      volume: 30
+    }, {
+      symbol: 'BA',
+      companyName: 'The Boeing Company',
+      sector: 'Industrials',
+      open: 322.94,
+      latestPrice: 327.88,
+      volume: 5
+    }, {
+      symbol: 'LMT',
+      companyName: 'Lockheed Martin Corporation',
+      sector: 'Industrials',
+      open: 336.04,
+      latestPrice: 337.93,
+      volume: 5
+    }, {
+      symbol: 'SQ',
+      companyName: 'Square Inc. Class A',
+      sector: 'Technology',
+      open: 47.84,
+      latestPrice: 49.2,
+      volume: 15
+    }, {
+      symbol: 'TEAM',
+      companyName: 'Atlassian Corporation Plc',
+      sector: 'Technology',
+      open: 52.55,
+      latestPrice: 53.92,
+      volume: 50
+    }, {
+      symbol: 'SMTC',
+      companyName: 'Semtech Corporation',
+      sector: 'Technology',
+      open: 38.9,
+      latestPrice: 39.05,
+      volume: 10
+    }
+  ];
+
+  data.forEach(function(d) {
+    return d.total = d.latestPrice * d.volume;
+  });
+
+  quotesBySectorSummarized = d3.nest().key(function(d) {
+    return d.sector;
+  }).rollup(function(v) {
+    return {
+      count: v.length,
+      total: d3.sum(v, function(d) {
+        return d.total;
+      })
+    };
+  }).entries(data);
+
+  ranges = ['5y', '2y', '1y', '6m', '3m', '1m'];
+
+  Utils.insertCSS("\n.line {\n	fill: none;\n}\n\n.axis path,\n.axis line {\n	fill: none;\n	stroke: #C6D4E2;\n	stroke: rgba(198,212,226,0.5);\n	shape-rendering: crispEdges;\n}\n\n.label {\n	font-size: 12px;\n	font-family: Roboto;\n	font-weight: 500;\n	fill: #5D7286;\n	fill: rgba(93,114,134,0.5);\n	text-transform: uppercase;\n}\n\n.overlay {\n	fill: none;\n	pointer-events: all;\n}\n\n.focus circle {\n	fill: none;\n	stroke: steelblue;\n}\n");
+
+  ChartLayer = (function(superClass) {
+    extend(ChartLayer, superClass);
+
+    function ChartLayer(options) {
+      if (options == null) {
+        options = {};
+      }
+      _.defaults(options, {
+        clip: true
+      });
+      ChartLayer.__super__.constructor.call(this, options);
+    }
+
+    return ChartLayer;
+
+  })(SVGLayer);
+
+  lineChart = window.__framerNew("lineChart", "176:16-183:0", "#8eafeb2e",new ChartLayer({
+    parent: chart,
+    width: chart.width,
+    height: chart.height,
+    backgroundColor: null,
+    ignoreEvents: false,
+    html: '<svg width=' + chart.width + ' height=' + chart.height + ' id="linechart"></svg>'
+  }));
+
+  lineChart.pixelAlign();
+
+  d3_formatPrefixes = ['e-24', 'e-21', 'e-18', 'e-15', 'e-12', 'e-9', 'e-6', 'e-3', '', 'K', 'M', 'B', 'T', 'P', 'E', 'Z', 'Y'];
+
+  d3_formatPrefix = function(d, i) {
+    var k;
+    k = Math.pow(10, Math.abs(8 - i) * 3);
+    return {
+      scale: i > 8 ? (function(d) {
+        return d / k;
+      }) : (function(d) {
+        return d * k;
+      }),
+      symbol: d
+    };
+  };
+
+  d3_formatPrefixes.map(d3_formatPrefix);
+
+  d3_format_precision = function(x, p) {
+    return p - (x ? Math.ceil(Math.log(x) / Math.LN10) : 1);
+  };
+
+  d3.formatPrefix = function(value, precision) {
+    var i;
+    i = 0;
+    if (value) {
+      if (value < 0) {
+        value *= -1;
+      }
+      if (precision) {
+        value = d3.round(value, d3_format_precision(value, precision));
+      }
+      i = 1 + Math.floor(1e-12 + Math.log(value) / Math.LN10);
+      i = Math.max(-24, Math.min(24, Math.floor((i - 1) / 3) * 3));
+    }
+    return d3_formatPrefixes[8 + i / 3];
+  };
+
+  getStockBook = function(symbol) {
+    var url;
+    url = "https://api.iextrading.com/1.0/stock/";
+    url += symbol + "/book";
+    stockProps = JSON.parse(Utils.domLoadDataSync(url));
+    return stockProps = stockProps['quote'];
+  };
+
+  getHeaderProperties = function(stockProps) {
+    var header;
+    header = stockView.selectChild('.header');
+    return header.children.forEach(function(e) {
+      if (e.name !== 'props') {
+        switch (false) {
+          case e.name !== 'stockSymbol':
+            return e.text = stockProps.symbol;
+          case e.name !== 'companyName':
+            return e.text = stockProps.companyName;
+          case e.name !== 'stockPrice':
+            return e.text = stockProps.close;
+          case e.name !== 'currencySymbol':
+            return e.opacity = 1;
+        }
+      }
+    });
+  };
+
+  getSummaryProperties = function(stockProps) {
+    var props, summary;
+    if (stockView.selectChild('.summary')) {
+      summary = stockView.selectChild('.summary');
+      props = summary.selectChild('props');
+      if (props != null) {
+        props.visible = false;
+      }
+    }
+    return summary != null ? summary.children.forEach(function(e) {
+      if (e.name !== 'props') {
+        if (e.name !== '.label') {
+          switch (false) {
+            case e.name !== 'openPrice':
+              return e.text = stockProps.open;
+            case e.name !== 'closePrice':
+              return e.text = stockProps.close;
+            case e.name !== 'volume':
+              return e.text = d3.format('.3s')(stockProps.latestVolume);
+            case e.name !== 'marketCap':
+              return e.text = d3.format('.3s')(stockProps.marketCap);
+            case e.name !== 'week52High':
+              return e.text = stockProps.week52High;
+            case e.name !== 'week52Low':
+              return e.text = stockProps.week52Low;
+          }
+        }
+      }
+    }) : void 0;
+  };
+
+  line = null;
+
+  getChartProperties = function() {
+    var props;
+    props = chart.selectChild('props');
+    props.visible = false;
+    props.children.forEach(function(e) {
+      switch (false) {
+        case e.name !== 'linearLine':
+          chartProps.line = linearLine;
+          return chartProps.interpolation = d3.curveLinear;
+        case e.name !== 'smoothLine':
+          chartProps.line = smoothLine;
+          return chartProps.interpolation = d3.curveBasisOpen;
+        case e.name !== 'gradient':
+          chartProps.withGradient = true;
+          chartProps.gradient = {};
+          chartProps.gradient.start = gradient.props.gradient.start;
+          return chartProps.gradient.end = gradient.props.gradient.end;
+      }
+    });
+    chartProps.color = chartProps.line.stroke;
+    chartProps.strokeWidth = chartProps.line.strokeWidth;
+    chartProps.strokeLinecap = chartProps.line.strokeLinecap;
+    Canvas.backgroundColor = chartProps.color;
+    return chartProps;
+  };
+
+  getTranslation = function(transform) {
+    var g, matrix;
+    g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttributeNS(null, 'transform', transform);
+    matrix = g.transform.baseVal.consolidate().matrix;
+    return [matrix.e, matrix.f];
+  };
+
+  createLineChart = function(symbol, period) {
+    if (symbol == null) {
+      symbol = 'APPL';
+    }
+    if (period == null) {
+      period = '6m';
+    }
+    return window.__framerNew(undefined, "344:5-542:36", "?",new Promise(function(resolve, reject) {
+      var area, customInterpolation, focus, formatMoneyValue, formatMonth, g, height, margin, parseTime, process, svg, url, valueArea, valueLine, width, x, y;
+      getStockBook(symbol);
+      getHeaderProperties(stockProps);
+      getSummaryProperties(stockProps);
+      getChartProperties();
+      margin = {
+        top: 30,
+        right: 0,
+        bottom: 30,
+        left: 0
+      };
+      width = chart.width - margin.left - margin.right;
+      height = chart.height - margin.top - margin.bottom;
+      svg = d3.select('#linechart').attr("xmlns", "http://www.w3.org/2000/svg");
+      g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      line = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      area = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+      focus = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')').attr('class', 'focus');
+      parseTime = d3.timeParse('%Y-%m-%d');
+      formatMonth = d3.utcFormat('%b');
+      formatMoneyValue = d3.format(",.2s");
+      x = d3.scaleTime().range([0, width]);
+      y = d3.scaleLinear().range([height, 0]);
+      customInterpolation = chartProps.interpolation;
+      valueLine = d3.line().x(function(d) {
+        return x(d.date);
+      }).y(function(d) {
+        return y(d.close);
+      }).curve(customInterpolation);
+      valueArea = d3.area().x(function(d) {
+        return x(d.date);
+      }).y0(y(0)).y1(function(d) {
+        return y(d.close);
+      }).curve(customInterpolation);
+      process = function(data) {
+        return data.forEach(function(d) {
+          d.date = parseTime(d.date);
+          d.open = +d.open;
+          return d.close = +d.close;
+        });
+      };
+      url = "https://api.iextrading.com/1.0/stock/" + symbol;
+      url += "/chart/" + period;
+      return d3.json(url, function(error, data) {
+        var MAX, MIN, customXAxis, customYAxis, xAxis, yAxis;
+        if (error) {
+          throw error;
+        }
+        process(data);
+        MIN = d3.min(data, function(d) {
+          return d.close;
+        });
+        MAX = d3.max(data, function(d) {
+          return d.close;
+        });
+        x.domain(d3.extent(data, function(d) {
+          return d.date;
+        }));
+        y.domain([[MIN - (MIN / 2)], [MAX + (MIN / 2)]]);
+        xAxis = d3.axisBottom(x).tickFormat(formatMonth).tickSize(0).tickPadding(15);
+        switch (period) {
+          case period === '3m':
+            xAxis.ticks(d3.timeMonth.every(1)).tickPadding(2);
+            break;
+          case period === '6m':
+            xAxis.ticks(d3.timeMonth.every(3));
+            break;
+          case period === '1y':
+            xAxis.ticks(d3.timeYear.every(1));
+            break;
+          case period === '2y':
+            xAxis.ticks(d3.timeYear.every(1));
+            break;
+          case period === '5y':
+            xAxis.ticks(d3.timeYear.every(2));
+        }
+        customXAxis = function(g) {
+          g.attr('class', 'x axis');
+          g.attr('transform', 'translate(0,' + height + ')');
+          g.call(xAxis);
+          g.select('.domain').remove();
+          return g.selectAll('text').classed('label', true).attr('style', 'text-anchor: middle;').attr('x', 0);
+        };
+        yAxis = d3.axisLeft(y).tickFormat(formatMoneyValue).tickSizeInner(-width).ticks(4);
+        customYAxis = function(g) {
+          g.classed('y axis', true);
+          g.call(yAxis);
+          g.select('.domain').remove();
+          g.selectAll('.tick').each(function(d, i) {
+            var t, tick;
+            tick = d3.select(this);
+            t = getTranslation(tick.attr('transform'));
+            t = [t[0], Math.round(t[1])];
+            return tick.attr('transform', 'translate(0,' + height + ')').attr('opacity', 0).transition().duration(1200).delay(200 * i).attr('transform', 'translate(0,' + t[1] + ')').attr('opacity', 1);
+          });
+          return g.selectAll('text').classed('label', true).attr('style', 'text-anchor: start;').attr('dy', function(d) {
+            if (d <= 0) {
+              return -10;
+            } else {
+              return -10;
+            }
+          }).attr('x', 9);
+        };
+        if (chartProps.withGradient) {
+          area.append('path').data([data]).attr("d", valueArea).attr('fill', 'none');
+        }
+
+        /*
+        			 * Add the X Axis
+        			g.append 'g'
+        				.call customXAxis
+         */
+        g.append('g').call(customYAxis);
+        line.append('path').data([data]).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round').attr('class', 'line').style('stroke', chartProps.color.toRgbString()).style('stroke-width', chartProps.strokeWidth).attr('d', valueLine);
+        line.select(".line").each(function(d) {
+          var totalLength;
+          totalLength = this.getTotalLength();
+          return d3.select(this).attr("stroke-dasharray", totalLength + " " + totalLength).attr("stroke-dashoffset", totalLength).transition().duration(2000).attr("stroke-dashoffset", 0);
+        });
+        return resolve();
+      });
+    }));
+  };
+
+  stock = _.sample(data);
+
+  range = _.sample(ranges);
+
+  Utils.domComplete(function() {
+    return createLineChart(stock.symbol, range);
+  });
+
+}).call(this);
+})</script>
+
+</head>
+
+<body>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+{
+  "orientation" : 0,
+  "updateDelay" : 0.29999999999999999,
+  "designModeSelected" : 1,
+  "cachedDeviceHeight" : 195,
+  "contentScale" : 1,
+  "fullScreen" : false,
+  "cachedDeviceWidth" : 156,
+  "deviceType" : "apple-watch-nike-plus-42mm-space-gray-aluminum-black-cool-gray",
+  "sharedPrototype" : 0,
+  "propertyPanelToggleStates" : {
+
+  },
+  "projectId" : "70120DE4-F4F1-4D30-807E-C4F3032A67F7",
+  "deviceOrientation" : 0,
+  "selectedHand" : "",
+  "showBezel" : true,
+  "foldedCodeRanges" : [
+
+  ],
+  "deviceScale" : "fit"
+}
