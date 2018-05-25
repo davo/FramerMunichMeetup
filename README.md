@@ -1,4 +1,4 @@
-# Framer NYC Meetup
+# Framer Munich Meetup, May 24, 2018
 
 Slides & prototypes for my remote presentation about using data in Framer Studio and creating visualizations with d3.js 
 
